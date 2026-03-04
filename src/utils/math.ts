@@ -15,10 +15,9 @@ export const clamp = (value: number, min: number, max: number): number =>
 export const lerp = (a: number, b: number, t: number): number =>
   a + (b - a) * t;
 
-/**
- * Compute simple path statistics for drag paths.
- * path: array of 2D points in pixels, in order.
- */
+export const smoothstep = (t: number): number =>
+  t * t * (3 - 2 * t);
+
 export const computePathStats = (path: { x: number; y: number }[]) => {
   if (path.length < 2) {
     return {
@@ -41,5 +40,13 @@ export const computePathStats = (path: { x: number; y: number }[]) => {
     pathLength: length,
     straightLineDistance,
     deviationRatio,
-  };
+};
+
+export const normalizeScore = (
+  raw: number,
+  min: number,
+  max: number
+): number => {
+  if (max === min) return 50;
+  return clamp(((raw - min) / (max - min)) * 100, 0, 100);
 };
